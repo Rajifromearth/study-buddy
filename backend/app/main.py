@@ -14,7 +14,7 @@ app = FastAPI(title="Study Buddy API")
 app.add_middleware(
     CORSMiddleware,
     # TODO: Add the deployed frontend URL here before production; do not remove the local development origin.
-    allow_origins=['http://localhost:5173'],
+   allow_origins=['http://localhost:5173', 'https://your-actual-vercel-url.vercel.app'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
