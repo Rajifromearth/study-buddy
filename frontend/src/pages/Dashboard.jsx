@@ -8,7 +8,7 @@ import quizIcon from '../assets/icon-quiz.svg'
 import DashboardSections from '../components/dashboard/DashboardSections'
 import { useAuth } from '../components/AuthContext'
 
-const API_URL = 'http://127.0.0.1:8000'
+const API_URL = import.meta.env.VITE_API_URL
 const items = [['notes', notesIcon, 'Notes'], ['qa', qaIcon, 'Q&A'], ['ask-ai', '✨', 'Ask AI'], ['calendar', calendarIcon, 'Calendar'], ['plan', studyPlanIcon, 'Study Plan'], ['quiz', quizIcon, 'Quiz']]
 
 export default function Dashboard() {

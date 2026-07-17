@@ -4,7 +4,7 @@ import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css'
 import { courses } from '../../constants/courses'
-const base='http://127.0.0.1:8000',fail='Something went wrong, please try again.'
+const base=import.meta.env.VITE_API_URL,fail='Something went wrong, please try again.'
 async function api(path,opt={}){const r=await fetch(base+path,opt);if(!r.ok)throw Error();return r.json()}
 const Err=({e})=>e?<p className="dashboard-error">{e}</p>:null
 function Button({loading,children,...p}){return <button className="button button--accent" disabled={loading}{...p}>{loading?'Working�':children}</button>}
