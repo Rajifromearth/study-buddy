@@ -38,18 +38,6 @@ def _save_plan(plan: StudyPlan) -> StudyPlan:
     return plan
 
 
-def _fallback_days(start: date, end: date, message: str, no_notes: bool = False) -> list[StudyDay]:
-    days = []
-    current = start
-    while current <= end:
-        tasks = [message]
-        if no_notes and not days:
-            tasks.insert(0, "No notes were found for this course; general review is recommended.")
-        days.append(StudyDay(date=current.isoformat(), focus="General review", tasks=tasks))
-        current += timedelta(days=1)
-    return days
-
-
 def _request_days(course: str, target_date: str, target_title: str, days_remaining: int,
                   context: str) -> list[dict]:
     api_key = os.getenv("OPENAI_API_KEY")

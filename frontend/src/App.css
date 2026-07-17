@@ -24,9 +24,11 @@ body{background:radial-gradient(circle at 8% 8%,rgba(112,72,232,.09),transparent
 
 body{background:radial-gradient(circle at 8% 8%,rgba(112,72,232,.09),transparent 26rem),radial-gradient(circle at 92% 28%,rgba(255,107,91,.07),transparent 24rem),linear-gradient(90deg,#f7f7fa 0%,#d7d9e1 48%,#b8bbc5 100%)}
 
-#home-particles,#home-particles canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important}.hero-particles{opacity:1!important}
+#home-particles,#home-particles canvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;pointer-events:none!important}.hero-particles{opacity:1!important}
 
 
 
 .ask-ai-answer{font-size:1rem;line-height:1.65}.ask-ai-answer p{margin:0 0 1em}.ask-ai-answer p:last-child{margin-bottom:0}.ask-ai-answer h1,.ask-ai-answer h2,.ask-ai-answer h3,.ask-ai-answer h4{color:var(--accent);line-height:1.3;margin:1.25em 0 .55em}.ask-ai-answer h1:first-child,.ask-ai-answer h2:first-child,.ask-ai-answer h3:first-child,.ask-ai-answer h4:first-child{margin-top:0}.ask-ai-answer strong{color:var(--secondary)}.ask-ai-answer ul,.ask-ai-answer ol{margin:0 0 1em;padding-left:1.4em}.ask-ai-answer li{margin:.35em 0}.ask-ai-answer blockquote{margin:0 0 1em;padding-left:14px;border-left:3px solid var(--secondary);color:var(--muted)}.ask-ai-answer .katex-display{overflow-x:auto;overflow-y:hidden;margin:1em 0}
 .learn-more-button{margin-top:14px}.learn-more-card{background:#f7f4ff;border-color:#ddd3ff;box-shadow:inset 3px 0 0 var(--secondary)}.learn-more-card h3{color:var(--accent)}
+@media(max-width:760px){.navbar{gap:10px;padding:0 10px}.brand img{width:108px}.nav-links{gap:7px}.nav-links a{font-size:.74rem;white-space:nowrap}}
+.dashboard-welcome{margin:0 0 8px;color:var(--accent);font-size:1.05rem;font-weight:800;letter-spacing:-.02em}

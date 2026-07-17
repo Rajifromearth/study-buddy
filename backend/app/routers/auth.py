@@ -9,7 +9,7 @@ router = APIRouter(prefix='/auth', tags=['auth'])
 @router.post('/signup')
 def signup(payload: UserCreate) -> dict:
     try:
-        user = create_user(payload.email, payload.password)
+        user = create_user(payload.email, payload.password, payload.username)
     except ValueError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error)) from error
     return {'user': user, 'token': create_access_token(user.id)}

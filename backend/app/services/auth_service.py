@@ -28,25 +28,44 @@ def _connection() -> sqlite3.Connection:
     connection.execute('''CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
         email TEXT NOT NULL UNIQUE,
+        username TEXT,
         password_hash TEXT NOT NULL,
         created_at TEXT NOT NULL
     )''')
+    columns = {row['name'] for row in connection.execute('PRAGMA table_info(users)')}
+    if 'username' not in columns:
+        connection.execute('ALTER TABLE users ADD COLUMN username TEXT')
     return connection
 
 
 def _user(row: sqlite3.Row) -> User:
-    return User(id=row['id'], email=row['email'], created_at=row['created_at'])
+    return User(
+        id=row['id'],
+        email=row['email'],
+        username=row['username'] or '',
+        created_at=row['created_at'],
+    )
 
 
-def create_user(email: str, password: str) -> User:
+def create_user(email: str, password: str, username: str) -> User:
     normalized_email = email.strip().lower()
+    normalized_username = username.strip()
+    if not normalized_username:
+        raise ValueError('Username cannot be empty.')
     with _connection() as connection:
         existing = connection.execute('SELECT id FROM users WHERE email = ?', (normalized_email,)).fetchone()
         if existing:
             raise ValueError('An account with this email already exists.')
-        user = User(id=str(uuid4()), email=normalized_email, created_at=datetime.now(timezone.utc).isoformat())
-        connection.execute('INSERT INTO users (id, email, password_hash, created_at) VALUES (?, ?, ?, ?)',
-            (user.id, user.email, password_context.hash(password), user.created_at))
+        user = User(
+            id=str(uuid4()),
+            email=normalized_email,
+            username=normalized_username,
+            created_at=datetime.now(timezone.utc).isoformat(),
+        )
+        connection.execute(
+            'INSERT INTO users (id, email, username, password_hash, created_at) VALUES (?, ?, ?, ?, ?)',
+            (user.id, user.email, user.username, password_context.hash(password), user.created_at),
+        )
     return user
 
 

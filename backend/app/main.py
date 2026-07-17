@@ -13,6 +13,7 @@ from .routers.quiz import router as quiz_router
 app = FastAPI(title="Study Buddy API")
 app.add_middleware(
     CORSMiddleware,
+    # TODO: Add the deployed frontend URL here before production; do not remove the local development origin.
     allow_origins=['http://localhost:5173'],
     allow_credentials=True,
     allow_methods=['*'],

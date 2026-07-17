@@ -1,12 +1,35 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 
 const AuthContext = createContext(null)
 
+const storedUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem('study_buddy_user') || 'null')
+  } catch {
+    return null
+  }
+}
+
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(() => Boolean(localStorage.getItem('study_buddy_token')))
-  const logIn = token => { localStorage.setItem('study_buddy_token', token); setIsLoggedIn(true) }
-  const logOut = () => { localStorage.removeItem('study_buddy_token'); setIsLoggedIn(false) }
-  return <AuthContext.Provider value={{ isLoggedIn, logIn, logOut }}>{children}</AuthContext.Provider>
+  const [user, setUser] = useState(storedUser)
+  const logIn = useCallback((token, nextUser) => {
+    localStorage.setItem('study_buddy_token', token)
+    if (nextUser) localStorage.setItem('study_buddy_user', JSON.stringify(nextUser))
+    setUser(nextUser || null)
+    setIsLoggedIn(true)
+  }, [])
+  const updateUser = useCallback(nextUser => {
+    localStorage.setItem('study_buddy_user', JSON.stringify(nextUser))
+    setUser(nextUser)
+  }, [])
+  const logOut = useCallback(() => {
+    localStorage.removeItem('study_buddy_token')
+    localStorage.removeItem('study_buddy_user')
+    setUser(null)
+    setIsLoggedIn(false)
+  }, [])
+  return <AuthContext.Provider value={{ isLoggedIn, user, logIn, logOut, updateUser }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
