@@ -1,0 +1,7 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(9, 10)">
+    <path d="M16 4C12 2 6 2 2 4V28C6 26 12 26 16 28V4Z" fill="#7048E8"/>
+    <path d="M16 4C20 2 26 2 30 4V28C26 26 20 26 16 28V4Z" fill="#FF6B5B"/>
+    <path d="M16 4V28" stroke="#FAFAFA" stroke-width="1" stroke-opacity="0.3"/>
+  </g>
+</svg>
