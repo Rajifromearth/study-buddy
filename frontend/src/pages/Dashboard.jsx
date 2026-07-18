@@ -15,6 +15,7 @@ const items = [['notes', notesIcon, 'Notes'], ['qa', qaIcon, 'Q&A'], ['ask-ai', 
 export default function Dashboard() {
   const [active, setActive] = useState('notes')
   const [course, setCourse] = useState('')
+  const [qaSession, setQaSession] = useState()
   const navigate = useNavigate()
   const { logOut, updateUser, user } = useAuth()
   useEffect(() => {
@@ -27,5 +28,5 @@ export default function Dashboard() {
       .catch(() => {})
   }, [updateUser, user])
   const logout = () => { logOut(); navigate('/') }
-  return <div className="page-container dashboard-page"><section className="dashboard-intro">{user?.username&&<p className="dashboard-welcome">Welcome back, {user.username}!</p>}<span className="eyebrow">Study workspace</span><h1>Everything for your <em className="accent-word">next session.</em></h1><p>Turn notes into answers, deadlines, plans, and practice - all in one gentle place.</p></section><div className="dashboard-workspace"><aside className="dashboard-sidebar">{items.map(([id, icon, label]) => <button className={active === id ? 'sidebar-item active' : 'sidebar-item'} onClick={() => setActive(id)} key={id}><span className="sidebar-icon">{id === 'ask-ai' ? <Sparkles size={18} aria-hidden="true" /> : <img src={icon} alt="" />}</span>{label}</button>)}<button className="sidebar-item sidebar-logout" onClick={logout}><LogOut size={18} aria-hidden="true" />Log Out</button></aside><main className="dashboard-content"><DashboardSections activeSection={active} course={course} setCourse={setCourse} /></main></div></div>
+  return <div className="page-container dashboard-page"><section className="dashboard-intro">{user?.username&&<p className="dashboard-welcome">Welcome back, {user.username}!</p>}<span className="eyebrow">Study workspace</span><h1>Everything for your <em className="accent-word">next session.</em></h1><p>Turn notes into answers, deadlines, plans, and practice - all in one gentle place.</p></section><div className="dashboard-workspace"><aside className="dashboard-sidebar">{items.map(([id, icon, label]) => <button className={active === id ? 'sidebar-item active' : 'sidebar-item'} onClick={() => setActive(id)} key={id}><span className="sidebar-icon">{id === 'ask-ai' ? <Sparkles size={18} aria-hidden="true" /> : <img src={icon} alt="" />}</span>{label}</button>)}<button className="sidebar-item sidebar-logout" onClick={logout}><LogOut size={18} aria-hidden="true" />Log Out</button></aside><main className="dashboard-content"><DashboardSections activeSection={active} course={course} setCourse={setCourse} qaSession={qaSession} setQaSession={setQaSession} /></main></div></div>
 }
