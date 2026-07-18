@@ -119,7 +119,7 @@ All five backend features are implemented and code-reviewed. End-to-end testing 
 
 ## What's next
 
-- Frontend integration (React/Vite) — teammate-led
+- Frontend integration (React/Vite) 
 - End-to-end testing of all AI-powered endpoints
 - Possible additions if time allows: progress tracking, weak-spot detection based on Q&A history
 - Deploy: backend to Render, frontend to Vercel
