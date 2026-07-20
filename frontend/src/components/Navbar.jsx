@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.svg'
@@ -8,6 +8,16 @@ function Navbar(){
   const { isLoggedIn, logOut } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKeyDown = event => { if (event.key === 'Escape') setMenuOpen(false) }
+    document.body.classList.add('mobile-menu-open')
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.classList.remove('mobile-menu-open')
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [menuOpen])
   const closeMenu = () => setMenuOpen(false)
   const logout = () => { logOut(); closeMenu(); navigate('/') }
   const links = <><NavLink to="/" onClick={closeMenu}>Home</NavLink><NavLink to="/services" onClick={closeMenu}>Services</NavLink>{isLoggedIn && <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>}<NavLink to="/about" onClick={closeMenu}>About</NavLink></>
