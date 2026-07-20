@@ -14,25 +14,35 @@ const eventDate = value => {
 export default function DashboardStats({ refreshKey }) {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [unavailable, setUnavailable] = useState(false)
+
   useEffect(() => {
     let cancelled = false
     const load = async () => {
       setLoading(true)
+      setUnavailable(false)
       try {
         const [notesResponse, eventsResponse] = await Promise.all([fetch(`${base}/notes`), fetch(`${base}/calendar/events`)])
         if (!notesResponse.ok || !eventsResponse.ok) throw new Error('Unable to load dashboard stats')
         const [notes, events] = await Promise.all([notesResponse.json(), eventsResponse.json()])
+        if (!Array.isArray(notes) || !Array.isArray(events)) throw new Error('Invalid dashboard stats response')
         const today = startOfToday()
         const nextEvent = events.map(event => ({ ...event, parsedDate: eventDate(event.date) })).filter(event => event.parsedDate && event.parsedDate >= today).sort((a, b) => a.parsedDate - b.parsedDate)[0]
         const daysAway = nextEvent ? Math.round((nextEvent.parsedDate - today) / 86400000) : null
         if (!cancelled) setStats({ notes: notes.length, courses: new Set(notes.map(note => note.course).filter(Boolean)).size, nextEvent, daysAway })
-      } catch { if (!cancelled) setStats(null) } finally { if (!cancelled) setLoading(false) }
+      } catch {
+        if (!cancelled) setUnavailable(true)
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
     }
     load()
     return () => { cancelled = true }
   }, [refreshKey])
-  if (loading) return <section className="dashboard-stats dashboard-stats--loading" aria-live="polite">Loading workspace stats...</section>
-  if (!stats) return <section className="dashboard-stats dashboard-stats--unavailable" aria-live="polite">Workspace stats are unavailable right now.</section>
+
+  if (loading && !stats) return <section className="dashboard-stats dashboard-stats--loading" aria-label="Loading workspace stats"><article className="dashboard-stat-card dashboard-stat-card--skeleton"/><article className="dashboard-stat-card dashboard-stat-card--skeleton"/><article className="dashboard-stat-card dashboard-stat-card--skeleton"/></section>
+  if (!stats && unavailable) return <section className="dashboard-stats dashboard-stats--unavailable" aria-live="polite">Workspace stats are unavailable right now.</section>
+
   const deadline = stats.nextEvent ? `Next: ${stats.nextEvent.title} in ${stats.daysAway} ${stats.daysAway === 1 ? 'day' : 'days'}` : 'No upcoming deadlines'
   return <section className="dashboard-stats" aria-label="Workspace overview">
     <article className="dashboard-stat-card"><span className="dashboard-stat-icon"><img src={notesIcon} alt="" /></span><div><strong>{stats.notes}</strong><span>Total notes uploaded</span></div></article>
