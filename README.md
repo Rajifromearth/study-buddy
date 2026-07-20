@@ -11,7 +11,7 @@ Students take notes and get syllabi, but the information just sits there — unt
 ## Tech stack
 
 - **Backend:** FastAPI (Python 3.14)
-- **Frontend:** React/Vite (in progress, built by teammate)
+- **Frontend:** React/Vite 
 - **Database:** SQLite (single-file, zero-setup)
 - **AI:** OpenAI GPT-5.6 via the Responses API
 - **Dev tooling:** Codex (VS Code extension + CLI) used to scaffold and implement all backend features
@@ -123,3 +123,5 @@ All five backend features are implemented and code-reviewed. End-to-end testing 
 - End-to-end testing of all AI-powered endpoints
 - Possible additions if time allows: progress tracking, weak-spot detection based on Q&A history
 - Deploy: backend to Render, frontend to Vercel
+
+> **Note for judges:** This project uses free-tier hosting. The backend may take 30–60 seconds to respond on first load if it's been inactive (Render free tier sleeps after inactivity). Additionally, since the free tier doesn't persist local storage across restarts, accounts and data created in one session may not carry over if the server has restarted — please sign up fresh if login unexpectedly fails.
