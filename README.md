@@ -108,6 +108,9 @@ uvicorn backend.app.main:app --reload
 
 Then visit `http://127.0.0.1:8000/docs` for interactive API docs (Swagger UI) to explore and test every endpoint.
 
+## 6. Check stats and previous uploads 
+You can check how many uploads you have previously made with our stats which is located on top of the normal workspace.
+
 ## How Codex and GPT-5.6 were used
 
 - **Codex** scaffolded and implemented every backend feature in this repo — models, services, and routers — from detailed prompts specifying exact function signatures, error-handling patterns, and import conventions, following a consistent style established across the codebase.
